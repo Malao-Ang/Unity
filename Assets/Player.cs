@@ -23,7 +23,9 @@ public class Player : MonoBehaviour
     {
         if(! PlayerManager.isGameStarted)
             return;
+        animator.SetBool("isGameStarted", true);
         moveDirection.z = speed;
+        animator.SetBool("isGrounded",characterController.isGrounded);
         if(characterController.isGrounded){
             moveDirection.y = -1;
             if(SwipeManager.swipeUp){
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour
         else{
             moveDirection.y += Gravity*Time.deltaTime;
         }
-        animator.SetBool("Run", true);
+        
         if (SwipeManager.swipeRight)
         {
             desiredLane++;
@@ -55,13 +57,11 @@ public class Player : MonoBehaviour
         //calulate
         Vector3 targetPosition =( transform.position.z * transform.forward) +( transform.position.y * transform.up);
         if (desiredLane == 0)
-        {
             targetPosition += (Vector3.left * laneDistance);
-        }
+        
         else if (desiredLane == 2)
-        {
             targetPosition += (Vector3.right * laneDistance);
-        }
+        
 
         //transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
         if(transform.position == targetPosition){
@@ -95,6 +95,7 @@ public class Player : MonoBehaviour
             PlayerManager.gameOver = true;
         }
     }
+    
 
 
 
